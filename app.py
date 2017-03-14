@@ -28,8 +28,7 @@ def PredictHeartDisease():
         standard_scalar = GetStandardScalarForHeart()
         features_standard = standard_scalar.transform(features)
 
-        LinearSVCClassifier, LogisticRegressionClassifier, NaiveBayesClassifier, KNeighborsClassifier, NeuralNetworkClassifier = GetAllClassifiersForHeart()
-        EnsembleClassifier = GetEnsembleClassifierForHeart()
+        LinearSVCClassifier, LogisticRegressionClassifier, NaiveBayesClassifier, KNeighborsClassifier, NeuralNetworkClassifier, EnsembleClassifier = GetAllClassifiersForHeart()
 
         predictions = {'Ensemble': str(EnsembleClassifier.predict(features_standard)[0]), 'LinearSVC': str(LinearSVCClassifier.predict(features_standard)[0]), 'LogisticRegression': str(LogisticRegressionClassifier.predict(features_standard)[0]), 'NaiveBayes': str(NaiveBayesClassifier.predict(features_standard)[0]), 'KNeighbors': str(KNeighborsClassifier.predict(features_standard)[0]), 'NeuralNetwork': str(NeuralNetworkClassifier.predict(features_standard)[0]) }
         return make_response(jsonify(predictions), 200)
@@ -37,14 +36,14 @@ def PredictHeartDisease():
         return make_response(jsonify({'errors': form.errors}), 400)
 
 class DiabetesForm(Form):
+    age = IntegerField('Age', [validators.required()])
     pregnant = IntegerField('Number of times pregnant', [validators.required()])
     plasma_glucose_concentration = IntegerField('Plasma Glucose Concentration', [validators.required()])
     diastolic_bp = IntegerField('Diastolic BP', [validators.required()])
     tsft = IntegerField('tsft', [validators.required()])
-    insulin = IntegerField('Insulin')
+    serum_insulin = IntegerField('Serum Insulin')
     bmi = DecimalField('BMI', [validators.required()])
     dpf = DecimalField('DFP', [validators.required()])
-    age = IntegerField('Age', [validators.required()])
 
 
 
@@ -52,12 +51,11 @@ class DiabetesForm(Form):
 def PredictDiabetes():
     form = DiabetesForm(request.form)
     if form.validate():
-        features = [[ form.pregnant.data, form.plasma_glucose_concentration.data, form.diastolic_bp.data, form.tsft.data, form.insulin.data, form.bmi.data, form.dpf.data, form.age.data ]]
+        features = [[ form.pregnant.data, form.plasma_glucose_concentration.data, form.diastolic_bp.data, form.tsft.data, form.serum_insulin.data, form.bmi.data, form.dpf.data, form.age.data ]]
         standard_scalar = GetStandardScalarForDiabetes()
         features_standard = standard_scalar.transform(features)
 
-        LinearSVCClassifier, LogisticRegressionClassifier, NaiveBayesClassifier, KNeighborsClassifier, NeuralNetworkClassifier = GetAllClassifiersForDiabetes()
-        EnsembleClassifier = GetEnsembleClassifierForDiabetes()
+        LinearSVCClassifier, LogisticRegressionClassifier, NaiveBayesClassifier, KNeighborsClassifier, NeuralNetworkClassifier, EnsembleClassifier = GetAllClassifiersForDiabetes()
 
         predictions = {'Ensemble': str(EnsembleClassifier.predict(features_standard)[0]), 'LinearSVC': str(LinearSVCClassifier.predict(features_standard)[0]), 'LogisticRegression': str(LogisticRegressionClassifier.predict(features_standard)[0]), 'NaiveBayes': str(NaiveBayesClassifier.predict(features_standard)[0]), 'KNeighbors': str(KNeighborsClassifier.predict(features_standard)[0]), 'NeuralNetwork': str(NeuralNetworkClassifier.predict(features_standard)[0]) }
         return make_response(jsonify(predictions), 200)
