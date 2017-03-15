@@ -17,20 +17,35 @@ def LoadDataset(dataset_file):
     dataframe = pandas.read_csv(dataset_file)
     num_rows = dataframe.shape[0]
     logging.info("%d Rows in Dataset" % num_rows)
+    return dataframe
 
-    # Remove columns with missing elements
-    dataframe = dataframe.dropna()
-    num_rows = dataframe.shape[0]
-    logging.info("%d Rows in Dataset after removing null values" % num_rows)
 
-    ## Create Feature Vectors
+def ProcessData(dataframe, options):
+
+    if 'drop_na' in options and options['drop_na']:
+        dataframe = dataframe.dropna()
+        num_rows = dataframe.shape[0]
+        logging.info("%d Rows in Dataset after removing null values" % num_rows)
+
+    if 'replace_zero_values' in options:
+        for field in options['replace_zero_values']:
+            impute_zero_field(dataframe, field)
+
     features = dataframe.ix[:,:-1].values
     standard_scalar = preprocessing.StandardScaler().fit(features)
     features_std = standard_scalar.transform(features)
 
     predictions = dataframe.iloc[:,-1].values
 
-    return (dataframe, standard_scalar, features_std, predictions)
+    return (standard_scalar, features_std, predictions)
+
+
+def impute_zero_field(data, field):
+    nonzero_vals = data.loc[data[field] != 0, field]
+    avg = numpy.sum(nonzero_vals) / len(nonzero_vals)
+    k = len(data.loc[ data[field] == 0, field])   # num of 0-entries
+    data.loc[ data[field] == 0, field ] = avg
+    logging.info('Field: %s; fixed %d entries with value: %.3f' % (field, k, avg))
 
 
 def GenerateNeurons(number_of_layers=1, min_neurons=3, max_neurons=50):
@@ -68,36 +83,42 @@ def main():
     optimizations_worksheet.append(['Time', 'Dataset', 'Classifier', 'Scoring', 'Best Score', 'Best Params', 'Best Estimator', 'File'])
 
     datasets = {
-        'Heart Disease': 'datasets/cleveland.csv',
-        'Diabetes': 'datasets/pima-indians-diabetes.csv'
+        'Heart Disease': {
+            'filename': 'datasets/cleveland.csv',
+            'drop_na': True,
+        },
+        'Diabetes': {
+            'filename': 'datasets/diabetes.csv',
+            'replace_zero_values': ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
+        },
     }
 
     classifiers = {
         'Logistic Regression': {
             'clf': linear_model.LogisticRegression(random_state=37,C=0.13, penalty='l1'),
             'cv_params': dict(C=numpy.arange(0.1,5,0.01).tolist(), penalty=['l1', 'l2']),
-            'optimize': False,
+            'optimize': True,
             'random': False
         },
 
         'Linear SVC': {
             'clf': svm.LinearSVC(random_state=37,C=18.09),
             'cv_params': dict(C=numpy.arange(0.1,50,0.01).tolist()),
-            'optimize': False,
+            'optimize': True,
             'random': False
         },
 
         'Naive Bayes': {
             'clf': naive_bayes.GaussianNB(),
             'cv_params': dict(),
-            'optimize': False,
+            'optimize': True,
             'random': False
         },
 
         'K-Nearest Neighbors': {
             'clf': neighbors.KNeighborsClassifier(algorithm='brute', n_jobs=-1, n_neighbors=13, weights='uniform'),
             'cv_params': dict(n_neighbors=numpy.arange(1,50).tolist(), weights=['uniform', 'distance']),
-            'optimize': False,
+            'optimize': True,
             'random': False
         },
 
@@ -117,10 +138,12 @@ def main():
     }
 
     try:
-        for dataset_name, dataset_file in datasets.items():
+        for dataset_name, dataset_options in datasets.items():
 
             logging.info("Dataset: %s" % (dataset_name))
-            dataframe, standard_scalar, features, predictions = LoadDataset(dataset_file)
+
+            dataframe = LoadDataset(dataset_options['filename'])
+            standard_scalar, features, predictions = ProcessData(dataframe, dataset_options)
 
             for classifier_name, classifier in classifiers.items():
                 logging.info("-- Processing: %s ---" % (classifier_name))
