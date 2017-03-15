@@ -50,7 +50,7 @@ def main():
     options = dict(
         cv=10,
         scoring=['accuracy', 'average_precision', 'f1', 'f1_micro', 'f1_macro', 'f1_weighted', 'neg_log_loss', 'precision', 'recall', 'roc_auc'],
-        verbose=0,
+        verbose=2,
         logbook=dict(
             log=True,
             filename="results/Log-%d.xlsx" % (time.time()),
@@ -68,50 +68,50 @@ def main():
     optimizations_worksheet.append(['Time', 'Dataset', 'Classifier', 'Scoring', 'Best Score', 'Best Params', 'Best Estimator', 'File'])
 
     datasets = {
-        # 'Heart Disease': 'cleveland.csv',
-        'Diabetes': 'pima-indians-diabetes.csv'
+        'Heart Disease': 'datasets/cleveland.csv',
+        'Diabetes': 'datasets/pima-indians-diabetes.csv'
     }
 
     classifiers = {
         'Logistic Regression': {
             'clf': linear_model.LogisticRegression(random_state=37,C=0.13, penalty='l1'),
             'cv_params': dict(C=numpy.arange(0.1,5,0.01).tolist(), penalty=['l1', 'l2']),
-            'optimize': True,
+            'optimize': False,
             'random': False
         },
 
         'Linear SVC': {
             'clf': svm.LinearSVC(random_state=37,C=18.09),
-            'cv_params': dict(C=numpy.arange(0.1,50,0.1).tolist()),
-            'optimize': True,
+            'cv_params': dict(C=numpy.arange(0.1,50,0.01).tolist()),
+            'optimize': False,
             'random': False
         },
 
         'Naive Bayes': {
             'clf': naive_bayes.GaussianNB(),
             'cv_params': dict(),
-            'optimize': True,
+            'optimize': False,
             'random': False
         },
 
         'K-Nearest Neighbors': {
             'clf': neighbors.KNeighborsClassifier(algorithm='brute', n_jobs=-1, n_neighbors=13, weights='uniform'),
-            'cv_params': dict(n_neighbors=numpy.arange(1,20).tolist(), weights=['uniform', 'distance']),
-            'optimize': True,
+            'cv_params': dict(n_neighbors=numpy.arange(1,50).tolist(), weights=['uniform', 'distance']),
+            'optimize': False,
             'random': False
         },
 
         'MLP Classifier': {
-            'clf': neural_network.MLPClassifier(random_state=37,learning_rate_init=0.026958815931057856, learning_rate='constant', hidden_layer_sizes=(29,26,5), activation='identity', alpha=16.681005372000556),
+            'clf': neural_network.MLPClassifier(random_state=37,learning_rate_init=0.026958815931057856, learning_rate='constant', hidden_layer_sizes=(29,26,5), activation='identity', alpha=16.681005372000556,max_iter=5000),
             'cv_params': dict(
-                hidden_layer_sizes=GenerateNeurons(3),
+                hidden_layer_sizes=GenerateNeurons(2),
                 activation=['identity', 'logistic', 'tanh', 'relu'],
                 learning_rate=['constant', 'invscaling', 'adaptive'],
                 alpha=numpy.logspace(-5, 3, 5),learning_rate_init=stats.uniform(0.001, 0.05)
             ),
             'optimize': True,
             'random': True,
-            'random_iterations': 10
+            'random_iterations': 10000
         },
 
     }
