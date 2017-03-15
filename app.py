@@ -61,3 +61,7 @@ def PredictDiabetes():
         return make_response(jsonify(predictions), 200)
     else:
         return make_response(jsonify({'errors': form.errors}), 400)
+
+
+if __name__ == "__main__":
+    app.run()
