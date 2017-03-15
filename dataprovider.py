@@ -4,22 +4,22 @@ from sklearn.externals import joblib
 
 config = {
     'heart': {
-        'scalar_file': 'models/heart/standard_scalar.pkl',
-        'LinearSVC': 'models/heart/LinearSVC.pkl',
-        'LogisticRegression': 'models/heart/LogisticRegression.pkl',
-        'NaiveBayes': 'models/heart/NaiveBayes.pkl',
-        'KNeighbors': 'models/heart/KNeighbors.pkl',
-        'NeuralNetwork': 'models/heart/NN.pkl',
-        'Ensemble' : 'models/heart/Ensemble.pkl'
+        'scalar_file': 'production/heart/standard_scalar.pkl',
+        'LinearSVC': 'production/heart/LinearSVC.pkl',
+        'LogisticRegression': 'production/heart/LogisticRegression.pkl',
+        'NaiveBayes': 'production/heart/NaiveBayes.pkl',
+        'KNeighbors': 'production/heart/KNeighbors.pkl',
+        'NeuralNetwork': 'production/heart/NN.pkl',
+        'Ensemble' : 'production/heart/Ensemble.pkl'
     },
     'diabetes': {
-        'scalar_file': 'models/diabetes/standard_scalar.pkl',
-        'LinearSVC': 'models/diabetes/LinearSVC.pkl',
-        'LogisticRegression': 'models/diabetes/LogisticRegression.pkl',
-        'NaiveBayes': 'models/diabetes/NaiveBayes.pkl',
-        'KNeighbors': 'models/diabetes/KNeighbors.pkl',
-        'NeuralNetwork': 'models/diabetes/NN.pkl',
-        'Ensemble' : 'models/diabetes/Ensemble.pkl'
+        'scalar_file': 'production/diabetes/standard_scalar.pkl',
+        'LinearSVC': 'production/diabetes/LinearSVC.pkl',
+        'LogisticRegression': 'production/diabetes/LogisticRegression.pkl',
+        'NaiveBayes': 'production/diabetes/NaiveBayes.pkl',
+        'KNeighbors': 'production/diabetes/KNeighbors.pkl',
+        'NeuralNetwork': 'production/diabetes/NN.pkl',
+        'Ensemble' : 'production/diabetes/Ensemble.pkl'
     }
 }
 
