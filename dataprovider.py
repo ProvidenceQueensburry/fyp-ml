@@ -23,15 +23,16 @@ config = {
     }
 }
 
+dir = os.path.dirname(__file__)
 
 def GetJobLibFile(filepath):
-    if os.path.isfile(filepath):
-        return joblib.load(filepath)
+    if os.path.isfile(os.path.join(dir, filepath)):
+        return joblib.load(os.path.join(dir, filepath))
     return None
 
 def GetPickleFile(filepath):
-    if os.path.isfile(filepath):
-        return pickle.load( open(filepath, "rb" ) )
+    if os.path.isfile(os.path.join(dir, filepath)):
+        return pickle.load( open(os.path.join(dir, filepath), "rb" ) )
     return None
 
 def GetStandardScalarForHeart():
