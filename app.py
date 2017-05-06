@@ -37,13 +37,13 @@ def PredictHeartDisease():
 
 class DiabetesForm(Form):
     age = IntegerField('Age', [validators.required()])
-    pregnant = IntegerField('Number of times pregnant', [validators.required()])
-    plasma_glucose_concentration = IntegerField('Plasma Glucose Concentration', [validators.required()])
-    diastolic_bp = IntegerField('Diastolic BP', [validators.required()])
-    tsft = IntegerField('tsft', [validators.required()])
+    pregnant = IntegerField('Number of times pregnant')
+    plasma_glucose_concentration = IntegerField('Plasma Glucose Concentration')
+    diastolic_bp = IntegerField('Diastolic BP')
+    tsft = IntegerField('tsft')
     serum_insulin = IntegerField('Serum Insulin')
-    bmi = DecimalField('BMI', [validators.required()])
-    dpf = DecimalField('DFP', [validators.required()])
+    bmi = DecimalField('BMI')
+    dpf = DecimalField('DFP')
 
 
 
