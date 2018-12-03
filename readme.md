@@ -29,6 +29,7 @@ Multi-Layer Perceptron Neural Network outperforms other linear models however K-
 # Deployment
 
 1.  Install Python 3 and virtualenv
+
     a.	If the deployment is being done in ubuntu, run the following commands in the terminal
     ```bash
     sudo apt-get install python3 python3-pip python3-tk
@@ -40,6 +41,7 @@ Multi-Layer Perceptron Neural Network outperforms other linear models however K-
     git clone https://github.com/nikhil-pandey/fyp-ml
     ```
 3.  Create a virtual environment and install the dependencies.
+
     a.  In ubuntu, create the virtual environment for python 3 and activate it; then install the dependencies in requirements.txt file using the command
     ```bash
     pip install -r requirements.txt
