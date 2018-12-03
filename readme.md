@@ -30,12 +30,10 @@ Multi-Layer Perceptron Neural Network outperforms other linear models however K-
 
 1.  Install Python 3 and virtualenv
     a.	If the deployment is being done in ubuntu, run the following commands in the terminal
-        ```bash
-        sudo apt-get install python3 python3-pip python3-tk
-        ```
-        ```bash
-        sudo pip install virtualenv
-        ```
+    ```bash
+    sudo apt-get install python3 python3-pip python3-tk
+    sudo pip install virtualenv
+    ```
     b.	If the deployment is being done in windows, installing python is recommended using [Anaconda](https://www.continuum.io/downloads)
 2.  Download the zip, or clone it using git.
     ```bash
