@@ -54,7 +54,7 @@ Multi-Layer Perceptron Neural Network outperforms other linear models however K-
 [Click Here](https://aimed.nikhil.com.np)
 
 # Read Full Report
-[Click Here](https://nikhil.com.np/downloads/aimed.pdf)
+[Click Here](https://nikhil.com.np/storage/aimed.pdf)
 
 # [License](LICENSE)
 This project is open-sourced under the [MIT license](LICENSE)
